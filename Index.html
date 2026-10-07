@@ -1,0 +1,735 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<title>Lily Nails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Parisienne&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: una columna de trabajo con pestañas; la agenda del día y el formulario lado a lado en pantallas anchas. */
+:root{
+  --bg:#fbf6f7; --surface:#ffffff; --ink:#2a1d22; --muted:#7a6870; --line:#eddfe3;
+  --lacquer:#b0164a; --lacquer-soft:#f8e3ea; --on-lacquer:#ffffff; --petal:#f3b6c8;
+  --ok:#1f7a4d; --ok-soft:#e0f2e8; --warn:#9a5b00; --warn-soft:#fbefd9; --bad:#b3261e; --bad-soft:#fbe4e2; --info:#2f5aa8; --info-soft:#e3ebf8;
+  --script:"Parisienne", "Brush Script MT", "Segoe Script", cursive;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#161013; --surface:#20181c; --ink:#f3e9ec; --muted:#b29fa7; --line:#3a2c32;
+  --lacquer:#f0568a; --lacquer-soft:#3d1a27; --on-lacquer:#1b0d12; --petal:#7a2a45;
+  --ok:#6fd3a0; --ok-soft:#173326; --warn:#f2bb63; --warn-soft:#3a2b12; --bad:#ff8a80; --bad-soft:#3d1c1a; --info:#8fb1f0; --info-soft:#1c2840;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161013; --surface:#20181c; --ink:#f3e9ec; --muted:#b29fa7; --line:#3a2c32;
+  --lacquer:#f0568a; --lacquer-soft:#3d1a27; --on-lacquer:#1b0d12; --petal:#7a2a45;
+  --ok:#6fd3a0; --ok-soft:#173326; --warn:#f2bb63; --warn-soft:#3a2b12; --bad:#ff8a80; --bad-soft:#3d1c1a; --info:#8fb1f0; --info-soft:#1c2840;
+  color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 16px 56px;display:grid;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:1.2rem;font-weight:700}
+h3{font-size:1rem;font-weight:600}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-bottom:4px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand svg{width:46px;height:46px;flex:none}
+.brand h1{font-family:var(--script);font-weight:400;font-size:clamp(2.3rem,7vw,3rem);line-height:1.25;color:var(--lacquer);letter-spacing:0;padding-top:4px}
+.brand .sub{color:var(--muted);font-size:.85rem;margin-top:0}
+.hdr-right{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.today{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.banner{padding:10px 14px;border-radius:var(--r);background:var(--warn-soft);color:var(--warn);font-weight:500;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.alerta{padding:12px 14px;border-radius:var(--r);background:var(--lacquer);color:var(--on-lacquer);display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-weight:600}
+.alerta .btn{background:var(--on-lacquer);color:var(--lacquer);border-color:transparent}
+nav{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto}
+nav button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 12px;font:600 .95rem var(--body);color:var(--muted);cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--lacquer)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--lacquer);outline-offset:2px}
+.panel{display:grid;gap:18px}
+.two{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:820px){.two{grid-template-columns:minmax(0,1fr)}}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:14px;min-width:0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.spread{justify-content:space-between}
+form{display:grid;gap:10px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fields .full{grid-column:1/-1}
+label{display:grid;gap:4px;font-size:.82rem;font-weight:600;color:var(--muted)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:2.6em}
+.btn{font:600 .9rem var(--body);border-radius:8px;padding:8px 14px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px;line-height:1.3}
+.btn.primary{background:var(--lacquer);border-color:var(--lacquer);color:var(--on-lacquer)}
+.btn.small{padding:4px 10px;font-size:.8rem}
+.btn.ghost{background:none;border-color:transparent;color:var(--muted)}
+.btn.danger{color:var(--bad);border-color:var(--bad-soft)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn svg{width:14px;height:14px}
+.daynav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.daynav input{width:auto}
+.list{display:grid}
+.cita{display:grid;grid-template-columns:4.4rem minmax(0,1fr);gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.cita:first-child{border-top:0}
+.cita .hora{font-family:var(--display);font-weight:700;font-size:1.05rem}
+.cita .main{display:grid;gap:6px;min-width:0}
+.cita .who{font-weight:700}
+.cita.soon{background:var(--lacquer-soft);border-radius:8px;padding-inline:8px;margin-inline:-8px}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;letter-spacing:.02em;white-space:nowrap}
+.st-pendiente{background:var(--warn-soft);color:var(--warn)}
+.st-confirmada{background:var(--info-soft);color:var(--info)}
+.st-completada{background:var(--ok-soft);color:var(--ok)}
+.st-cancelada,.st-no_asistio{background:var(--bad-soft);color:var(--bad)}
+.pago{font-size:.72rem;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.cobro{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--lacquer-soft);padding:8px;border-radius:8px}
+.empty{padding:22px 8px;text-align:center;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:720px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:grid;gap:2px;min-width:0;align-content:start}
+.kpi .v{font-family:var(--display);font-size:1.4rem;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi.net{background:var(--lacquer-soft);border-color:transparent}
+.pos{color:var(--ok)}.neg{color:var(--bad)}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(0,8rem) minmax(0,1fr) auto;gap:10px;align-items:center;font-size:.88rem}
+.bar .track{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
+.bar .fill{height:100%;background:var(--lacquer);border-radius:5px}
+.bar .fill.exp{background:var(--muted)}
+.bar .fill.alt{background:var(--info)}
+.bar span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+td.r,th.r{text-align:right}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;width:fit-content}
+.seg button{border:0;background:var(--surface);color:var(--muted);font:600 .85rem var(--body);padding:7px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--lacquer);color:var(--on-lacquer)}
+.steps{display:grid;gap:6px;margin:0;padding-left:1.2em;font-size:.92rem}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--lacquer-soft);color:var(--lacquer)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-weight:500;opacity:0;transition:opacity .2s;pointer-events:none;max-width:calc(100% - 32px);z-index:5}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+
+<script id="lily-seed" type="application/json">{"app":"lily-nails","version":1,"exportedAt":"2026-10-07T17:45:41.816Z","citas":{"muyc4uy98ssnyo":{"cliente":"yo","creado":"2026-10-07T16:41:52.306Z","estado":"completada","fecha":"2026-10-06","hora":"06:45","notas":"","precio":900,"servicio":"Otro","telefono":""},"muyed619o5006c":{"cliente":"sd","servicio":"Pedicure","precio":800,"fecha":"2026-10-07","hora":"18:49","estado":"pendiente","pago":"","notas":"","creado":"2026-10-07T17:44:19.149Z"}},"servicios":{"acrilicas":{"duracion":120,"nombre":"Uñas acrílicas (set completo)","precio":1800},"diseno":{"duracion":10,"nombre":"Diseño / decoración (por uña)","precio":100},"esmalte-gel":{"duracion":60,"nombre":"Esmaltado en gel","precio":900},"manicure-basico":{"duracion":45,"nombre":"Manicure básico","precio":500},"pedicure":{"duracion":60,"nombre":"Pedicure","precio":800},"relleno":{"duracion":90,"nombre":"Relleno de acrílicas","precio":1200}},"movimientos":{"muycbem7ryt7tq":{"categoria":"Propina","concepto":"n se","fecha":"2026-10-07","monto":200,"tipo":"ingreso"}}}</script>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M24 6c5 7 6 15 0 26C18 21 19 13 24 6z" fill="var(--lacquer)"/>
+        <path d="M6 18c9 0 16 5 18 14-10 0-16-5-18-14z" fill="var(--petal)"/>
+        <path d="M42 18c-9 0-16 5-18 14 10 0 16-5 18-14z" fill="var(--petal)"/>
+        <path d="M24 32v10" stroke="var(--lacquer)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="24" cy="30" r="2" fill="var(--warn)"/>
+      </svg>
+      <div><h1>Lily Nails</h1><div class="sub" id="hoyTxt"></div></div>
+    </div>
+    <div class="hdr-right">
+      <div class="today" id="topStats"></div>
+      <button class="btn small" id="avisosBtn" type="button">Activar avisos</button>
+    </div>
+  </header>
+
+  <div class="banner" id="banner" hidden></div>
+  <div id="alertas" style="display:grid;gap:8px"></div>
+
+  <nav role="tablist">
+    <button role="tab" data-tab="agenda" aria-selected="true">Agenda</button>
+    <button role="tab" data-tab="finanzas" aria-selected="false">Finanzas</button>
+    <button role="tab" data-tab="servicios" aria-selected="false">Servicios</button>
+    <button role="tab" data-tab="respaldo" aria-selected="false">Respaldo</button>
+  </nav>
+
+  <!-- AGENDA -->
+  <section class="panel" id="tab-agenda">
+    <div class="two">
+      <div class="box">
+        <div class="row spread">
+          <h2 id="diaTitulo">Citas de hoy</h2>
+          <div class="daynav">
+            <button class="btn small" id="prevDia" aria-label="Día anterior">‹</button>
+            <input type="date" id="diaSel" aria-label="Elegir día">
+            <button class="btn small" id="nextDia" aria-label="Día siguiente">›</button>
+            <button class="btn small ghost" id="hoyBtn">Hoy</button>
+          </div>
+        </div>
+        <div class="list" id="listaCitas"></div>
+      </div>
+
+      <div class="box">
+        <h2 id="formCitaTitulo">Nueva cita</h2>
+        <form id="formCita">
+          <div class="fields">
+            <label class="full">Clienta<input id="c_cliente" required placeholder="Nombre" list="clientasList" autocomplete="off"></label>
+            <label class="full">Servicio<select id="c_servicio" required></select></label>
+            <label>Fecha<input type="date" id="c_fecha" required></label>
+            <label>Hora<input type="time" id="c_hora" required></label>
+            <label>Precio ($)<input type="number" id="c_precio" min="0" step="50" required inputmode="numeric"></label>
+            <label>Estado<select id="c_estado">
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmada">Confirmada</option>
+              <option value="completada">Completada (pagada)</option>
+              <option value="cancelada">Cancelada</option>
+              <option value="no_asistio">No asistió</option>
+            </select></label>
+            <label class="full" id="c_pagoWrap" hidden>Forma de pago<select id="c_pago">
+              <option value="efectivo">Efectivo</option>
+              <option value="transferencia">Transferencia</option>
+            </select></label>
+            <label class="full">Notas<textarea id="c_notas" rows="2" placeholder="Diseño, color, largo…"></textarea></label>
+          </div>
+          <div class="row">
+            <button class="btn primary" type="submit" id="c_guardar">Guardar cita</button>
+            <button class="btn ghost" type="button" id="c_cancelar" hidden>Cancelar edición</button>
+          </div>
+        </form>
+        <datalist id="clientasList"></datalist>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="row spread"><h2>Próximas citas</h2><div class="row"><span class="muted" id="proxCount"></span><button class="btn small" id="icsTodas" hidden>Agregar todas al calendario</button></div></div>
+      <div class="list" id="listaProximas"></div>
+    </div>
+  </section>
+
+  <!-- FINANZAS -->
+  <section class="panel" id="tab-finanzas" hidden>
+    <div class="row spread">
+      <h2 id="mesTitulo">Resumen del mes</h2>
+      <div class="daynav">
+        <button class="btn small" id="prevMes" aria-label="Mes anterior">‹</button>
+        <input type="month" id="mesSel" aria-label="Elegir mes">
+        <button class="btn small" id="nextMes" aria-label="Mes siguiente">›</button>
+      </div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+
+    <div class="two">
+      <div class="box">
+        <h3>Cómo te pagaron</h3>
+        <div class="bars" id="barPago"></div>
+        <h3>Ingresos por servicio</h3>
+        <div class="bars" id="barServ"></div>
+        <h3>Gastos por categoría</h3>
+        <div class="bars" id="barGasto"></div>
+      </div>
+      <div class="box">
+        <h2 id="formMovTitulo">Registrar gasto o ingreso</h2>
+        <form id="formMov">
+          <div class="seg" role="group" aria-label="Tipo">
+            <button type="button" data-tipo="gasto" aria-pressed="true">Gasto</button>
+            <button type="button" data-tipo="ingreso" aria-pressed="false">Otro ingreso</button>
+          </div>
+          <div class="fields">
+            <label class="full">Concepto<input id="m_concepto" required placeholder="Ej. esmaltes gel, alquiler"></label>
+            <label>Monto ($)<input type="number" id="m_monto" min="0" step="1" required inputmode="numeric"></label>
+            <label>Fecha<input type="date" id="m_fecha" required></label>
+            <label>Categoría<select id="m_cat"></select></label>
+            <label>Pagado con<select id="m_metodo"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option></select></label>
+          </div>
+          <div class="row">
+            <button class="btn primary" type="submit" id="m_guardar">Guardar</button>
+            <button class="btn ghost" type="button" id="m_cancelar" hidden>Cancelar edición</button>
+          </div>
+        </form>
+        <p class="muted" style="font-size:.85rem">Las citas marcadas como <b>Completada</b> se suman solas a los ingresos.</p>
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Movimientos del mes</h2>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Fecha</th><th>Concepto</th><th>Categoría</th><th>Pago</th><th class="r">Monto</th><th></th></tr></thead>
+        <tbody id="tablaMov"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="panel" id="tab-servicios" hidden>
+    <div class="two">
+      <div class="box">
+        <h2>Lista de precios</h2>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Servicio</th><th class="r">Duración</th><th class="r">Precio</th><th></th></tr></thead>
+          <tbody id="tablaServ"></tbody>
+        </table></div>
+      </div>
+      <div class="box">
+        <h2 id="formServTitulo">Agregar servicio</h2>
+        <form id="formServ">
+          <div class="fields">
+            <label class="full">Nombre<input id="s_nombre" required placeholder="Ej. Acrílicas full set"></label>
+            <label>Precio ($)<input type="number" id="s_precio" min="0" step="50" required inputmode="numeric"></label>
+            <label>Duración (min)<input type="number" id="s_dur" min="0" step="15" value="60" inputmode="numeric"></label>
+          </div>
+          <div class="row">
+            <button class="btn primary" type="submit" id="s_guardar">Guardar servicio</button>
+            <button class="btn ghost" type="button" id="s_cancelar" hidden>Cancelar edición</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESPALDO -->
+  <section class="panel" id="tab-respaldo" hidden>
+    <div class="two">
+      <div class="box">
+        <div class="row spread"><h2>Usar sin internet</h2><span class="tag" id="modoTag"></span></div>
+        <div id="offlineCloud" hidden style="display:grid;gap:12px">
+          <p>Descarga una copia de Lily Nails que funciona sin internet. Se abre en el navegador y guarda todo en ese mismo aparato. Trae tus datos de hoy.</p>
+          <div class="row"><button class="btn primary" id="dlOffline">Descargar versión sin internet</button></div>
+          <ol class="steps muted">
+            <li>Guarda el archivo en la computadora o en el celular.</li>
+            <li>Ábrelo con Chrome o Safari. Puedes agregarlo a Favoritos.</li>
+            <li>Lo que anotes allí se queda en ese aparato. Para pasarlo aquí, usa “Exportar respaldo” allá e “Importar respaldo” aquí.</li>
+          </ol>
+        </div>
+        <div id="offlineLocal" hidden style="display:grid;gap:12px">
+          <p>Estás usando la versión sin internet. Todo se guarda en este navegador, en este aparato.</p>
+          <p class="muted">Haz un respaldo de vez en cuando. Si borras los datos del navegador, se borran también las citas.</p>
+        </div>
+      </div>
+      <div class="box">
+        <h2>Respaldo</h2>
+        <p class="muted">Un respaldo es un archivo con todas tus citas, servicios y movimientos. Sirve para guardar una copia o para pasar los datos entre la versión en línea y la versión sin internet.</p>
+        <div class="row">
+          <button class="btn" id="expBtn">Exportar respaldo</button>
+          <label class="btn" for="impFile" style="display:inline-flex;color:var(--ink);font-size:.9rem">Importar respaldo<input type="file" id="impFile" accept=".json,application/json" hidden></label>
+        </div>
+        <p class="muted" style="font-size:.85rem">Importar suma los datos del archivo a los que ya tienes. Si una cita ya existe, se actualiza.</p>
+      </div>
+    </div>
+    <div class="box">
+      <h2>Avisos de citas</h2>
+      <p>Con la página abierta, te aviso <b>20 minutos antes</b> de cada cita con un mensaje y un sonido. Toca “Activar avisos” arriba una vez cada vez que la abras, para que el navegador permita el sonido.</p>
+      <p id="alarmaTxt"></p>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+const $ = s => document.querySelector(s);
+const ESTADOS = {pendiente:"Pendiente",confirmada:"Confirmada",completada:"Completada",cancelada:"Cancelada",no_asistio:"No asistió"};
+const PAGOS = {efectivo:"Efectivo",transferencia:"Transferencia"};
+const CAT_GASTO = ["Materiales","Alquiler","Luz y agua","Transporte","Publicidad","Equipos","Otro"];
+const CAT_ING = ["Venta de productos","Propina","Otro"];
+const AVISO_MIN = 20;
+const COLS = ["citas","servicios","movimientos"];
+const LS_KEY = "lilynails_v1";
+const fmt = n => "$" + (Math.round(n||0)).toLocaleString("es-DO");
+const pad = n => String(n).padStart(2,"0");
+const isoDay = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseDay = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y,m-1,d); };
+const hoy = () => isoDay(new Date());
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fechaLarga = s => parseDay(s).toLocaleDateString("es-DO",{weekday:"long",day:"numeric",month:"long"});
+const hora12 = h => { if(!h) return "—"; const [H,M]=h.split(":").map(Number); return ((H%12)||12)+":"+pad(M)+(H<12?" am":" pm"); };
+const citaStart = c => { const d=parseDay(c.fecha); const [H,M]=(c.hora||"00:00").split(":").map(Number); d.setHours(H,M,0,0); return d; };
+const activa = c => c.estado==="pendiente"||c.estado==="confirmada";
+
+const state = { citas:[], servicios:[], movs:[], dia:hoy(), mes:hoy().slice(0,7), tipoMov:"gasto",
+  editCita:null, editServ:null, editMov:null, confirm:null, cobrar:null };
+
+/* ================= almacenamiento ================= */
+// "nube" = página publicada (datos en línea). "local" = archivo sin internet (datos en este navegador).
+let mode = "local", db = null;
+let local = { citas:{}, servicios:{}, movimientos:{} };
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } }
+function loadLocal(){ try{ const o=JSON.parse(lsGet(LS_KEY)||"null"); if(o) COLS.forEach(c=>local[c]=o[c]||{}); }catch(e){} }
+function persistLocal(){ if(!lsSet(LS_KEY, JSON.stringify(local))) showBanner("Este navegador no deja guardar datos. Lo que anotes se perderá al cerrar."); }
+function syncLocal(){
+  state.citas = Object.entries(local.citas).map(([id,d])=>({id,...d}));
+  state.servicios = Object.entries(local.servicios).map(([id,d])=>({id,...d}));
+  state.movs = Object.entries(local.movimientos).map(([id,d])=>({id,...d}));
+  render();
+}
+function newId(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+async function save(col,id,data){
+  if(mode==="nube") return db.collection(col).doc(id).set(data);
+  local[col][id] = {...data}; persistLocal(); syncLocal();
+}
+async function remove(col,id){
+  if(mode==="nube") return db.collection(col).doc(id).delete();
+  delete local[col][id]; persistLocal(); syncLocal();
+}
+function onErr(e){
+  console.error(e);
+  if(e && e.code==="invalid_argument") toast("No tienes permiso para guardar cambios aquí.");
+  else if(e && e.code==="quota_exceeded") toast("El almacenamiento está lleno. Borra registros viejos.");
+  else toast("No se pudo guardar. Revisa la conexión e intenta de nuevo.");
+}
+function snapshotData(){
+  const out = { app:"lily-nails", version:1, exportedAt:new Date().toISOString(), citas:{}, servicios:{}, movimientos:{} };
+  state.citas.forEach(({id,...d})=>out.citas[id]=d);
+  state.servicios.forEach(({id,...d})=>out.servicios[id]=d);
+  state.movs.forEach(({id,...d})=>out.movimientos[id]=d);
+  return out;
+}
+async function importData(obj){
+  if(!obj || obj.app!=="lily-nails") throw new Error("formato");
+  let n=0;
+  for(const col of COLS){
+    for(const [id,d] of Object.entries(obj[col]||{})){
+      if(mode==="nube") await db.collection(col).doc(id).set(d);
+      else local[col][id]=d;
+      n++;
+    }
+  }
+  if(mode==="local"){ persistLocal(); syncLocal(); }
+  return n;
+}
+
+/* ================= archivos ================= */
+async function saveFile(filename, data, mime){
+  if(mode==="nube"){
+    let dl=null; try{ dl = await window.claude.use("downloads"); }catch(e){}
+    if(!dl){ toast("Aquí no se pueden descargar archivos."); return false; }
+    try{ await dl.save({filename, data}); toast("Archivo listo"); return true; }
+    catch(e){ if(e && e.code!=="declined") toast("No se pudo descargar el archivo."); return false; }
+  }
+  const url = URL.createObjectURL(new Blob([data],{type:mime}));
+  const a = document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),4000); return true;
+}
+
+/* ================= calendario / alarma ================= */
+function durOf(c){ const s=state.servicios.find(x=>x.nombre===c.servicio); return (s && +s.duracion) || 60; }
+const icsDate = d => d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00";
+const icsEsc = s => String(s||"").replace(/[\\;,]/g,m=>"\\"+m).replace(/\n/g,"\\n");
+function buildICS(list){
+  const now = new Date(); const stamp = now.toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
+  const L = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Lily Nails//Agenda//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  list.forEach(c=>{
+    const s=citaStart(c), e=new Date(s.getTime()+durOf(c)*60000);
+    L.push("BEGIN:VEVENT","UID:"+c.id+"@lilynails","DTSTAMP:"+stamp,"DTSTART:"+icsDate(s),"DTEND:"+icsDate(e),
+      "SUMMARY:"+icsEsc("Lily Nails: "+c.cliente+" ("+c.servicio+")"),
+      "DESCRIPTION:"+icsEsc(fmt(c.precio)+(c.notas?" · "+c.notas:"")),
+      "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc("Cita en 20 minutos: "+c.cliente),"TRIGGER:-PT"+AVISO_MIN+"M","END:VALARM",
+      "END:VEVENT");
+  });
+  L.push("END:VCALENDAR"); return L.join("\r\n");
+}
+function gcalURL(c){
+  const s=citaStart(c), e=new Date(s.getTime()+durOf(c)*60000);
+  let tz=""; try{ tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""; }catch(x){}
+  const p = new URLSearchParams({action:"TEMPLATE", text:"Lily Nails: "+c.cliente+" ("+c.servicio+")", dates:icsDate(s)+"/"+icsDate(e), details:fmt(c.precio)+(c.notas?" · "+c.notas:"")+"\nRecordatorio: 20 minutos antes."});
+  if(tz) p.set("ctz",tz);
+  return "https://calendar.google.com/calendar/render?"+p.toString();
+}
+function alarmaBtn(c){
+  if(!activa(c)) return "";
+  const icon = `<svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="9" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 6v3l2 1.5M2.5 3.5l2-1.5M13.5 3.5l-2-1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+  if(mode==="local") return `<button class="btn small" data-act="ics" data-id="${c.id}" title="Crea un evento con alarma 20 min antes">${icon}Alarma</button>`;
+  return `<a class="btn small" href="${esc(gcalURL(c))}" target="_blank" rel="noopener" title="Abre Google Calendar con la cita">${icon}Alarma</a>`;
+}
+
+/* ================= avisos dentro de la página ================= */
+let audioCtx=null, avisados=new Set(), descartados=new Set();
+try{ JSON.parse(lsGet("lilynails_avisados")||"[]").forEach(k=>avisados.add(k)); }catch(e){}
+function beep(){
+  if(!audioCtx) return;
+  try{ const t=audioCtx.currentTime; [0,0.35,0.7].forEach(off=>{ const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type="sine"; o.frequency.value=880; g.gain.setValueAtTime(0.0001,t+off); g.gain.exponentialRampToValueAtTime(0.25,t+off+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+off+0.28);
+    o.connect(g).connect(audioCtx.destination); o.start(t+off); o.stop(t+off+0.3); }); }catch(e){}
+}
+$("#avisosBtn").addEventListener("click",async()=>{
+  try{ audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)(); await audioCtx.resume(); }catch(e){}
+  try{ if("Notification" in window && Notification.permission==="default") await Notification.requestPermission(); }catch(e){}
+  beep();
+  $("#avisosBtn").textContent="Avisos activos"; $("#avisosBtn").disabled=true;
+  toast("Te avisaré 20 minutos antes de cada cita mientras la página esté abierta.");
+});
+function revisarAvisos(){
+  const now=Date.now(); const box=$("#alertas"); const items=[];
+  state.citas.filter(activa).forEach(c=>{
+    const mins=(citaStart(c).getTime()-now)/60000;
+    if(mins>-5 && mins<=AVISO_MIN){
+      const key=c.id+"|"+c.fecha+"|"+c.hora;
+      if(!descartados.has(key)) items.push({c,mins,key});
+      if(!avisados.has(key) && mins>0){
+        avisados.add(key); lsSet("lilynails_avisados",JSON.stringify([...avisados].slice(-200)));
+        beep();
+        try{ if("Notification" in window && Notification.permission==="granted") new Notification("Lily Nails: cita en "+Math.ceil(mins)+" min",{body:c.cliente+" · "+c.servicio+" · "+hora12(c.hora)}); }catch(e){}
+      }
+    }
+  });
+  box.innerHTML = items.sort((a,b)=>a.mins-b.mins).map(({c,mins,key})=>`<div class="alerta" role="alert">
+    <span>${mins>0?`En ${Math.ceil(mins)} min`:"Ahora"}: ${esc(c.cliente)} · ${esc(c.servicio)} · ${esc(hora12(c.hora))}</span>
+    <button class="btn small" data-act="descartar" data-key="${esc(key)}">Entendido</button></div>`).join("");
+}
+setInterval(()=>{ revisarAvisos(); },30000);
+
+/* ================= UI general ================= */
+let tt; function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove("show"),2800); }
+function showBanner(html){ const b=$("#banner"); b.hidden=false; b.innerHTML=html; }
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>selTab(b.dataset.tab)));
+function selTab(t){
+  document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===t));
+  ["agenda","finanzas","servicios","respaldo"].forEach(x=>$("#tab-"+x).hidden = x!==t);
+  lsSet("salon_tab",t);
+}
+{ const t=lsGet("salon_tab"); if(t && $("#tab-"+t)) selTab(t); }
+function confirmBtn(key,label){
+  return state.confirm===key
+    ? `<button class="btn small danger" data-act="confirm" data-key="${key}">¿Seguro? Borrar</button><button class="btn small ghost" data-act="noconfirm">No</button>`
+    : `<button class="btn small ghost" data-act="ask" data-key="${key}">${label}</button>`;
+}
+
+/* ================= render ================= */
+function citaHTML(c, showDate){
+  const acc=[];
+  if(state.cobrar===c.id){
+    acc.push(`<div class="cobro"><span style="font-weight:600;font-size:.85rem">¿Cómo pagó ${fmt(c.precio)}?</span>
+      <button class="btn small primary" data-act="cobrar" data-id="${c.id}" data-v="efectivo">Efectivo</button>
+      <button class="btn small primary" data-act="cobrar" data-id="${c.id}" data-v="transferencia">Transferencia</button>
+      <button class="btn small ghost" data-act="nocobrar">Cancelar</button></div>`);
+  } else {
+    if(c.estado==="pendiente") acc.push(`<button class="btn small" data-act="estado" data-id="${c.id}" data-v="confirmada">Confirmar</button>`);
+    if(activa(c)){
+      acc.push(`<button class="btn small primary" data-act="pedirCobro" data-id="${c.id}">Cobrar</button>`);
+      acc.push(alarmaBtn(c));
+      acc.push(`<button class="btn small ghost" data-act="estado" data-id="${c.id}" data-v="no_asistio">No asistió</button>`);
+      acc.push(`<button class="btn small ghost" data-act="estado" data-id="${c.id}" data-v="cancelada">Cancelar</button>`);
+    }
+    acc.push(`<button class="btn small ghost" data-act="editCita" data-id="${c.id}">Editar</button>`);
+    acc.push(confirmBtn("cita:"+c.id,"Borrar"));
+  }
+  const mins=(citaStart(c).getTime()-Date.now())/60000;
+  const soon = activa(c) && mins>-5 && mins<=AVISO_MIN;
+  return `<div class="cita${soon?" soon":""}">
+    <div><div class="hora num">${esc(hora12(c.hora))}</div>${showDate?`<div class="muted" style="font-size:.78rem">${esc(parseDay(c.fecha).toLocaleDateString("es-DO",{weekday:"short",day:"numeric",month:"short"}))}</div>`:""}</div>
+    <div class="main">
+      <div class="row spread"><span class="who">${esc(c.cliente)}</span><span class="row" style="gap:6px">${c.estado==="completada"&&c.pago?`<span class="pago">${esc(PAGOS[c.pago]||c.pago)}</span>`:""}<span class="pill st-${esc(c.estado)}">${esc(ESTADOS[c.estado]||c.estado)}</span></span></div>
+      <div class="muted">${esc(c.servicio)} · <span class="num">${fmt(c.precio)}</span></div>
+      ${c.notas?`<div style="font-size:.88rem">${esc(c.notas)}</div>`:""}
+      <div class="row">${acc.join("")}</div>
+    </div></div>`;
+}
+const byTime=(a,b)=>(a.fecha+(a.hora||"")).localeCompare(b.fecha+(b.hora||""));
+
+function render(){
+  const t=hoy();
+  $("#hoyTxt").textContent = fechaLarga(t).replace(/^./,m=>m.toUpperCase());
+  const citasHoy = state.citas.filter(c=>c.fecha===t && c.estado!=="cancelada");
+  const ingHoy = state.citas.filter(c=>c.fecha===t && c.estado==="completada").reduce((s,c)=>s+(+c.precio||0),0);
+  $("#topStats").innerHTML = `<span class="label">Hoy</span><b class="num">${citasHoy.length}</b><span class="muted">${citasHoy.length===1?"cita":"citas"} ·</span><b class="num">${fmt(ingHoy)}</b><span class="muted">cobrado</span>`;
+
+  $("#diaSel").value = state.dia;
+  $("#diaTitulo").textContent = state.dia===t ? "Citas de hoy" : fechaLarga(state.dia).replace(/^./,m=>m.toUpperCase());
+  const delDia = state.citas.filter(c=>c.fecha===state.dia).sort(byTime);
+  $("#listaCitas").innerHTML = delDia.length ? delDia.map(c=>citaHTML(c,false)).join("")
+    : `<div class="empty">No hay citas este día.<br>Agrega una con el formulario “Nueva cita”.</div>`;
+
+  const prox = state.citas.filter(c=>c.fecha>t && activa(c)).sort(byTime);
+  $("#proxCount").textContent = prox.length ? prox.length+(prox.length===1?" cita":" citas") : "";
+  $("#icsTodas").hidden = !(mode==="local" && prox.length);
+  $("#listaProximas").innerHTML = prox.length ? prox.slice(0,20).map(c=>citaHTML(c,true)).join("")
+    : `<div class="empty">No hay citas futuras pendientes.</div>`;
+
+  // clientas
+  const nombres=[...new Set(state.citas.map(c=>c.cliente).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
+  $("#clientasList").innerHTML = nombres.map(n=>`<option value="${esc(n)}">`).join("");
+
+  // servicios
+  const sel=$("#c_servicio"), cur=sel.value;
+  const servs=[...state.servicios].sort((a,b)=>a.nombre.localeCompare(b.nombre,"es"));
+  sel.innerHTML = `<option value="">Elige un servicio…</option>` + servs.map(s=>`<option value="${esc(s.nombre)}" data-precio="${+s.precio||0}">${esc(s.nombre)} · ${fmt(s.precio)}</option>`).join("") + `<option value="Otro">Otro (escribe el precio)</option>`;
+  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value=cur;
+  else if(cur){ sel.insertAdjacentHTML("beforeend",`<option value="${esc(cur)}">${esc(cur)}</option>`); sel.value=cur; }
+
+  $("#tablaServ").innerHTML = servs.length ? servs.map(s=>`<tr>
+      <td>${esc(s.nombre)}</td><td class="r num">${s.duracion?esc(s.duracion)+" min":"—"}</td><td class="r num">${fmt(s.precio)}</td>
+      <td class="r"><div class="row" style="justify-content:flex-end;flex-wrap:nowrap"><button class="btn small ghost" data-act="editServ" data-id="${s.id}">Editar</button>${confirmBtn("serv:"+s.id,"Borrar")}</div></td></tr>`).join("")
+    : `<tr><td colspan="4" class="empty">Aún no hay servicios. Agrega el primero con su precio.</td></tr>`;
+
+  // modo
+  $("#modoTag").textContent = mode==="nube" ? "En línea" : "Sin internet · en este aparato";
+  $("#offlineCloud").hidden = mode!=="nube"; $("#offlineLocal").hidden = mode==="nube";
+  $("#alarmaTxt").innerHTML = mode==="nube"
+    ? `Para que suene la <b>alarma del celular</b> aunque la página esté cerrada, toca <b>Alarma</b> en la cita. Se abre Google Calendar con la cita lista para guardar. En Google Calendar, ve a Configuración › Notificaciones predeterminadas y pon <b>20 minutos</b>, así todas tus citas te avisan a tiempo.`
+    : `Para que suene la <b>alarma del celular</b> aunque la página esté cerrada, toca <b>Alarma</b> en la cita. Se descarga un evento que tu calendario (iPhone, Android o computadora) guarda con un aviso <b>20 minutos antes</b>. “Agregar todas al calendario” hace lo mismo con todas las próximas citas.`;
+
+  renderFinanzas();
+  revisarAvisos();
+}
+
+function renderFinanzas(){
+  const m=state.mes; $("#mesSel").value=m;
+  const [y,mm]=m.split("-").map(Number);
+  const nombreMes=new Date(y,mm-1,1).toLocaleDateString("es-DO",{month:"long",year:"numeric"});
+  $("#mesTitulo").textContent="Resumen de "+nombreMes;
+  const citasMes=state.citas.filter(c=>c.fecha.startsWith(m)&&c.estado==="completada");
+  const movsMes=state.movs.filter(x=>(x.fecha||"").startsWith(m));
+  const ingCitas=citasMes.reduce((s,c)=>s+(+c.precio||0),0);
+  const otrosArr=movsMes.filter(x=>x.tipo==="ingreso"), gastosArr=movsMes.filter(x=>x.tipo==="gasto");
+  const otros=otrosArr.reduce((s,x)=>s+(+x.monto||0),0);
+  const gastos=gastosArr.reduce((s,x)=>s+(+x.monto||0),0);
+  const neto=ingCitas+otros-gastos;
+  $("#kpis").innerHTML=`
+    <div class="kpi"><span class="label">Ingresos por citas</span><span class="v">${fmt(ingCitas)}</span><span class="muted">${citasMes.length} ${citasMes.length===1?"cita cobrada":"citas cobradas"}</span></div>
+    <div class="kpi"><span class="label">Otros ingresos</span><span class="v">${fmt(otros)}</span><span class="muted">ventas, propinas</span></div>
+    <div class="kpi"><span class="label">Gastos</span><span class="v">${fmt(gastos)}</span><span class="muted">${gastosArr.length} ${gastosArr.length===1?"registro":"registros"}</span></div>
+    <div class="kpi net"><span class="label">Ganancia del mes</span><span class="v ${neto>=0?"pos":"neg"}">${neto<0?"−":""}${fmt(Math.abs(neto))}</span><span class="muted">ingresos − gastos</span></div>`;
+  const group=(arr,keyFn,val)=>{ const g={}; arr.forEach(a=>{ const k=keyFn(a); g[k]=(g[k]||0)+(+a[val]||0); }); return Object.entries(g).sort((a,b)=>b[1]-a[1]); };
+  const bars=(rows,cls,emptyMsg)=>{ if(!rows.length) return `<div class="muted" style="font-size:.88rem">${emptyMsg}</div>`;
+    const max=Math.max(...rows.map(r=>r[1]),1);
+    return rows.map(([k,v],i)=>`<div class="bar"><span title="${esc(k)}">${esc(k)}</span><div class="track"><div class="fill ${typeof cls==="function"?cls(k,i):cls}" style="width:${(v/max*100).toFixed(1)}%"></div></div><span class="num">${fmt(v)}</span></div>`).join(""); };
+  const entradas=[...citasMes.map(c=>({m:c.pago||"sin indicar",v:+c.precio||0})),...otrosArr.map(x=>({m:x.metodo||"sin indicar",v:+x.monto||0}))];
+  $("#barPago").innerHTML=bars(group(entradas,e=>PAGOS[e.m]||"Sin indicar","v"),k=>k==="Transferencia"?"alt":"","Todavía no hay cobros este mes.");
+  $("#barServ").innerHTML=bars(group(citasMes,c=>c.servicio,"precio"),"","Sin citas cobradas este mes.");
+  $("#barGasto").innerHTML=bars(group(gastosArr,x=>x.categoria,"monto"),"exp","Sin gastos registrados este mes.");
+  const filas=[...citasMes.map(c=>({fecha:c.fecha,concepto:`Cita: ${c.cliente} (${c.servicio})`,categoria:"Servicio",metodo:c.pago,monto:+c.precio||0,tipo:"ingreso",cita:true})),...movsMes].sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  $("#tablaMov").innerHTML = filas.length ? filas.map(f=>`<tr>
+      <td class="num" style="white-space:nowrap">${esc(parseDay(f.fecha).toLocaleDateString("es-DO",{day:"numeric",month:"short"}))}</td>
+      <td>${esc(f.concepto)}</td><td class="muted">${esc(f.categoria)}</td><td class="muted">${esc(PAGOS[f.metodo]||"—")}</td>
+      <td class="r num ${f.tipo==="gasto"?"neg":"pos"}" style="white-space:nowrap">${f.tipo==="gasto"?"−":"+"}${fmt(f.monto)}</td>
+      <td class="r">${f.cita?`<span class="muted" style="font-size:.78rem">automático</span>`:`<div class="row" style="justify-content:flex-end;flex-wrap:nowrap"><button class="btn small ghost" data-act="editMov" data-id="${f.id}">Editar</button>${confirmBtn("mov:"+f.id,"Borrar")}</div>`}</td></tr>`).join("")
+    : `<tr><td colspan="6" class="empty">Nada registrado en ${esc(nombreMes)}.</td></tr>`;
+}
+
+/* ================= formularios ================= */
+function syncPagoField(){ $("#c_pagoWrap").hidden = $("#c_estado").value!=="completada"; }
+$("#c_estado").addEventListener("change",syncPagoField);
+function resetCita(){
+  state.editCita=null; $("#formCita").reset(); $("#c_fecha").value=state.dia; $("#c_estado").value="pendiente"; syncPagoField();
+  $("#formCitaTitulo").textContent="Nueva cita"; $("#c_guardar").textContent="Guardar cita"; $("#c_cancelar").hidden=true;
+}
+$("#c_servicio").addEventListener("change",e=>{ const o=e.target.selectedOptions[0]; if(o&&o.dataset.precio) $("#c_precio").value=o.dataset.precio; });
+$("#c_cancelar").addEventListener("click",resetCita);
+$("#formCita").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const editing=!!state.editCita, id=state.editCita||newId(), prev=state.citas.find(c=>c.id===id);
+  const estado=$("#c_estado").value;
+  const data={ cliente:$("#c_cliente").value.trim(), servicio:$("#c_servicio").value, precio:+$("#c_precio").value||0,
+    fecha:$("#c_fecha").value, hora:$("#c_hora").value, estado, pago: estado==="completada" ? $("#c_pago").value : "",
+    notas:$("#c_notas").value.trim(), creado: prev?.creado || new Date().toISOString() };
+  const choque = state.citas.find(c=>c.id!==id && activa(c) && c.fecha===data.fecha && c.hora===data.hora);
+  try{ await save("citas",id,data); toast(choque?`Guardada. Ojo: ${choque.cliente} también tiene cita a esa hora.`:(editing?"Cita actualizada":"Cita guardada")); state.dia=data.fecha; resetCita(); render(); }catch(err){ onErr(err); }
+});
+
+function resetServ(){ state.editServ=null; $("#formServ").reset(); $("#s_dur").value=60; $("#formServTitulo").textContent="Agregar servicio"; $("#s_cancelar").hidden=true; }
+$("#s_cancelar").addEventListener("click",resetServ);
+$("#formServ").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const editing=!!state.editServ, id=state.editServ||newId();
+  const data={ nombre:$("#s_nombre").value.trim(), precio:+$("#s_precio").value||0, duracion:+$("#s_dur").value||0 };
+  try{ await save("servicios",id,data); toast(editing?"Servicio actualizado":"Servicio agregado"); resetServ(); }catch(err){ onErr(err); }
+});
+
+function setTipo(t){ state.tipoMov=t; document.querySelectorAll("#formMov .seg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.tipo===t));
+  $("#m_cat").innerHTML=(t==="gasto"?CAT_GASTO:CAT_ING).map(c=>`<option>${c}</option>`).join(""); }
+document.querySelectorAll("#formMov .seg button").forEach(b=>b.addEventListener("click",()=>setTipo(b.dataset.tipo)));
+function resetMov(){ state.editMov=null; $("#formMov").reset(); $("#m_fecha").value=hoy(); setTipo("gasto"); $("#formMovTitulo").textContent="Registrar gasto o ingreso"; $("#m_cancelar").hidden=true; }
+$("#m_cancelar").addEventListener("click",resetMov);
+$("#formMov").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const id=state.editMov||newId();
+  const data={ tipo:state.tipoMov, concepto:$("#m_concepto").value.trim(), monto:+$("#m_monto").value||0, fecha:$("#m_fecha").value, categoria:$("#m_cat").value, metodo:$("#m_metodo").value };
+  try{ await save("movimientos",id,data); toast(data.tipo==="gasto"?"Gasto registrado":"Ingreso registrado"); state.mes=data.fecha.slice(0,7); resetMov(); renderFinanzas(); }catch(err){ onErr(err); }
+});
+
+/* ================= navegación ================= */
+const shiftDay=n=>{ const d=parseDay(state.dia); d.setDate(d.getDate()+n); state.dia=isoDay(d); if(!state.editCita) $("#c_fecha").value=state.dia; render(); };
+$("#prevDia").onclick=()=>shiftDay(-1); $("#nextDia").onclick=()=>shiftDay(1);
+$("#hoyBtn").onclick=()=>{ state.dia=hoy(); if(!state.editCita) $("#c_fecha").value=state.dia; render(); };
+$("#diaSel").onchange=e=>{ if(e.target.value){ state.dia=e.target.value; if(!state.editCita) $("#c_fecha").value=state.dia; render(); } };
+const shiftMes=n=>{ const [y,m]=state.mes.split("-").map(Number); const d=new Date(y,m-1+n,1); state.mes=d.getFullYear()+"-"+pad(d.getMonth()+1); renderFinanzas(); };
+$("#prevMes").onclick=()=>shiftMes(-1); $("#nextMes").onclick=()=>shiftMes(1);
+$("#mesSel").onchange=e=>{ if(e.target.value){ state.mes=e.target.value; renderFinanzas(); } };
+
+/* ================= respaldo ================= */
+$("#expBtn").addEventListener("click",()=>saveFile("lily-nails-respaldo-"+hoy()+".json", JSON.stringify(snapshotData(),null,1), "application/json"));
+$("#impFile").addEventListener("change",async e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  try{ const n=await importData(JSON.parse(await f.text())); toast(n+" registros importados"); }
+  catch(err){ toast(err.message==="formato"?"Ese archivo no es un respaldo de Lily Nails.":"No se pudo importar el archivo."); console.error(err); }
+});
+$("#icsTodas").addEventListener("click",()=>{ const prox=state.citas.filter(c=>c.fecha>=hoy()&&activa(c)&&citaStart(c)>new Date()); if(prox.length) saveFile("lily-nails-citas.ics", buildICS(prox), "text/calendar"); });
+$("#dlOffline").addEventListener("click",async()=>{
+  const btn=$("#dlOffline"); btn.disabled=true;
+  try{
+    const res=await fetch("lily-nails-sin-internet.html"); if(!res.ok) throw new Error("fetch");
+    const html=await res.text();
+    const marker='<script id="lily-seed" type="application/json">'+'null</'+'script>';
+    const seed=JSON.stringify(snapshotData()).replace(/</g,"\\u003c");
+    const out=html.replace(marker,'<script id="lily-seed" type="application/json">'+seed+'</'+'script>');
+    await saveFile("Lily Nails.html", out, "text/html");
+  }catch(e){ console.error(e); toast("No se pudo preparar la versión sin internet."); }
+  btn.disabled=false;
+});
+
+/* ================= acciones ================= */
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-act]"); if(!b) return;
+  const act=b.dataset.act, id=b.dataset.id;
+  const cita=()=>state.citas.find(x=>x.id===id);
+  const body=c=>{ const {id:_,...d}=c; return d; };
+  if(act==="ask"){ state.confirm=b.dataset.key; render(); return; }
+  if(act==="noconfirm"){ state.confirm=null; render(); return; }
+  if(act==="confirm"){ const [k,kid]=b.dataset.key.split(":"); state.confirm=null;
+    try{ await remove({cita:"citas",serv:"servicios",mov:"movimientos"}[k],kid); toast("Borrado"); }catch(err){ onErr(err); } render(); return; }
+  if(act==="pedirCobro"){ state.cobrar=id; render(); return; }
+  if(act==="nocobrar"){ state.cobrar=null; render(); return; }
+  if(act==="cobrar"){ const c=cita(); state.cobrar=null; if(!c) return;
+    try{ await save("citas",id,{...body(c),estado:"completada",pago:b.dataset.v}); toast("Cobrado en "+PAGOS[b.dataset.v].toLowerCase()); }catch(err){ onErr(err); } render(); return; }
+  if(act==="estado"){ const c=cita(); if(!c) return;
+    try{ await save("citas",id,{...body(c),estado:b.dataset.v}); toast("Cita: "+ESTADOS[b.dataset.v]); }catch(err){ onErr(err); } return; }
+  if(act==="ics"){ const c=cita(); if(c) saveFile("cita-"+c.cliente.replace(/[^\wÀ-ÿ -]/g,"")+".ics", buildICS([c]), "text/calendar"); return; }
+  if(act==="descartar"){ descartados.add(b.dataset.key); revisarAvisos(); return; }
+  if(act==="editCita"){ const c=cita(); if(!c) return;
+    selTab("agenda"); state.editCita=id;
+    $("#c_cliente").value=c.cliente;
+    const sel=$("#c_servicio"); if(![...sel.options].some(o=>o.value===c.servicio)) sel.insertAdjacentHTML("beforeend",`<option value="${esc(c.servicio)}">${esc(c.servicio)}</option>`);
+    sel.value=c.servicio; $("#c_precio").value=c.precio; $("#c_fecha").value=c.fecha; $("#c_hora").value=c.hora||""; $("#c_estado").value=c.estado; $("#c_pago").value=c.pago||"efectivo"; syncPagoField(); $("#c_notas").value=c.notas||"";
+    $("#formCitaTitulo").textContent="Editar cita"; $("#c_guardar").textContent="Guardar cambios"; $("#c_cancelar").hidden=false;
+    $("#formCita").scrollIntoView({behavior:"smooth",block:"start"}); $("#c_cliente").focus({preventScroll:true}); return; }
+  if(act==="editServ"){ const s=state.servicios.find(x=>x.id===id); if(!s) return;
+    state.editServ=id; $("#s_nombre").value=s.nombre; $("#s_precio").value=s.precio; $("#s_dur").value=s.duracion||"";
+    $("#formServTitulo").textContent="Editar servicio"; $("#s_cancelar").hidden=false; $("#s_nombre").focus(); return; }
+  if(act==="editMov"){ const m=state.movs.find(x=>x.id===id); if(!m) return;
+    state.editMov=id; setTipo(m.tipo); $("#m_concepto").value=m.concepto; $("#m_monto").value=m.monto; $("#m_fecha").value=m.fecha; $("#m_cat").value=m.categoria; $("#m_metodo").value=m.metodo||"efectivo";
+    $("#formMovTitulo").textContent="Editar movimiento"; $("#m_cancelar").hidden=false; $("#m_concepto").focus(); return; }
+  if(act==="mergeSeed"){ try{ const n=await importData(window.__lilySeed); lsSet("lilynails_seed_at",window.__lilySeed.exportedAt); $("#banner").hidden=true; toast(n+" registros cargados"); }catch(err){ toast("No se pudieron cargar los datos."); } return; }
+});
+
+/* ================= arranque ================= */
+resetCita(); resetMov();
+function startLocal(nota){
+  mode="local"; loadLocal();
+  let seed=null; try{ seed=JSON.parse(document.getElementById("lily-seed").textContent); }catch(e){}
+  const vacio = COLS.every(c=>!Object.keys(local[c]).length);
+  if(seed && seed.app==="lily-nails"){
+    window.__lilySeed=seed;
+    if(vacio){ COLS.forEach(c=>local[c]={...(seed[c]||{})}); persistLocal(); lsSet("lilynails_seed_at",seed.exportedAt); }
+    else if(lsGet("lilynails_seed_at")!==seed.exportedAt){
+      showBanner(`<span>Este archivo trae datos del ${esc(new Date(seed.exportedAt).toLocaleDateString("es-DO",{day:"numeric",month:"long"}))}.</span><button class="btn small" data-act="mergeSeed">Sumarlos a lo que ya tengo</button>`);
+    }
+  }
+  if(nota) showBanner(nota);
+  syncLocal();
+}
+if(window.claude && typeof window.claude.use==="function"){
+  render();
+  (async()=>{
+    let d=null; try{ d=await window.claude.use("db"); }catch(e){}
+    if(!d){ startLocal("No se pudo conectar con tus datos en línea. Lo que anotes ahora se guarda solo en este aparato."); return; }
+    db=d; mode="nube"; render();
+    const sub=(col,key)=>db.collection(col).onSnapshot(snap=>{ state[key]=snap.docs.map(x=>({id:x.id,...x.data()})); render(); },
+      err=>{ console.error(err); showBanner("Se perdió la conexión con tus datos. Recarga la página."); });
+    sub("citas","citas"); sub("servicios","servicios"); sub("movimientos","movs");
+  })();
+} else {
+  startLocal();
+}
+})();
+</script>
+
+</body></html>
